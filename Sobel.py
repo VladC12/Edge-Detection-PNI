@@ -1,6 +1,7 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import Operators as op #in the same directory created by us
 
 ###Edge Detection Algotirhm (Sobel Operator)
 
@@ -18,93 +19,85 @@ plt.imshow(InputRGB)
 plt.suptitle('The input color image') #not needed just for demonstration purposes
 plt.show()
 #display gray
-plt.imshow(InputGray,cmap = 'gray')
-plt.suptitle('The gray scale input image')
-plt.show()
+# plt.imshow(InputGray,cmap = 'gray')
+# plt.suptitle('The gray scale input image')
+# plt.show()
 
 #Image matrix dimensions
 ImageLengthX=InputGray.shape[0] #horizontal length of image
 ImageLengthY=InputGray.shape[1] #vertical length of image
 
 (thresh, InputBW) = cv2.threshold(InputGray, 127, 255, cv2.THRESH_BINARY) #converting to black and white
+MatrixBW = np.array(InputBW)
+#display BW picture
+#plt.figure()
+#plt.imshow(InputBW,cmap = 'gray')
+#plt.show()
 
-plt.figure()
-plt.imshow(InputBW,cmap = 'gray')
-plt.show()
+print('Choose 1 for Sobel or 2 for Prewitt Operator:')
+oper = int(input())
+print('What size?')
+size = int(input())
 
-##Applying masks
-#Apply a mask in X
-maskx = np.array([[-1, 0, 1],  #3x3 Sobel Operator
-                  [-2, 0, 2],  #TODO: Upgrade to 5x5, 7x7, etc.
-                  [-1, 0, 1]])
+maskx = np.zeros((size,size), dtype=int)
+masky = np.zeros((size,size), dtype=int)
 
-SobelX = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
 
-i=0 
-j=0
-for i in range(ImageLengthX-1):
-    for j in range(ImageLengthY-1):
-        InputMini = np.array([[InputBW.item(i-1, j-1),InputBW.item(i-1, j),InputBW.item(i-1, j+1)],
-                              [InputBW.item(i,   j-1),InputBW.item(i,   j),InputBW.item(i,   j+1)],
-                              [InputBW.item(i+1, j-1),InputBW.item(i+1, j),InputBW.item(i+1, j+1)]])
-        #edge (literally) case
-        if i-1 < 0:
-            InputMini[0,:] = 0
-        if j-1 < 0:
-            InputMini[:,0] = 0
-        if i+1 > ImageLengthX:
-            InputMini[2,:] = 0
-        if j+1 >ImageLengthY:
-            InputMini[:,2] = 0
-        
-        SobVal = np.sum(np.multiply(InputMini,maskx))
-        if SobVal < 0:
-            SobelX[i,j] = 255
-        elif SobVal >= 0:
-            SobelX[i,j] = 0
+if oper == 1:
+    ##Applying masks
+    #Apply a mask in X & Y
+    maskx = op.Sobel(size)[0]
+    masky = op.Sobel(size)[1]
+elif oper == 2:
+    ##Applying masks
+    #Apply a mask in X & Y
+    maskx = op.Prewitt(size)[0]
+    masky = op.Prewitt(size)[1]
+  
+EdgeDetecX = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
 
-Gx = np.array(SobelX)
-plt.figure()
-plt.imshow(Gx,cmap = 'gray')
-plt.show()
-
-#Apply a mask in Y
-masky = np.array([[-1, -2, -1], #3x3 Sobel Operator 
-                  [ 0,  0,  0], #TODO: Upgrade to 5x5, 7x7, etc.
-                  [ 1,  2,  1]])
-
-SobelY = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
+InputMini = np.zeros((size,size), dtype=int)
 
 i=0 
 j=0
 for i in range(ImageLengthX-1):
     for j in range(ImageLengthY-1):
-        InputMini = np.array([[InputBW.item(i-1, j-1),InputBW.item(i-1, j),InputBW.item(i-1, j+1)],
-                                 [InputBW.item(i,   j-1),InputBW.item(i,   j),InputBW.item(i,   j+1)],
-                                 [InputBW.item(i+1, j-1),InputBW.item(i+1, j),InputBW.item(i+1, j+1)]])
-        #edge (literally) case
-        if i-1 < 0:
-            InputMini[0,:] = 0
-        if j-1 < 0:
-            InputMini[:,0] = 0
-        if i+1 > ImageLengthX:
-            InputMini[2,:] = 0
-        if j+1 >ImageLengthY:
-            InputMini[:,2] = 0
         
-        SobVal = np.sum(np.multiply(InputMini,masky))
-        if SobVal < 0:
-            SobelY[i,j] = 255
-        elif SobVal >= 0:
-            SobelY[i,j] = 0
+        #TODO: Redo InputMini for new algorithm
+        
+        EDVal = np.sum(np.multiply(InputMini,maskx))
+        if EDVal < 0:
+            EdgeDetecX[i,j] = 255
+        elif EDVal >= 0:
+            EdgeDetecX[i,j] = 0
+
+Gx = np.array(EdgeDetecX)
+# plt.figure()
+# plt.imshow(Gx,cmap = 'gray')
+# plt.show()
+
+EdgeDetecY = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
+
+i=0 
+j=0
+for i in range(ImageLengthX-1):
+    for j in range(ImageLengthY-1):
+         
+        #TODO: Redo InputMini for new algorithm
+        
+        EDVal = np.sum(np.multiply(InputMini,masky))
+        if EDVal < 0:
+            EdgeDetecY[i,j] = 255
+        elif EDVal >= 0:
+            EdgeDetecY[i,j] = 0
             
-Gy = np.array(SobelY)            
-plt.figure()
-plt.imshow(Gy,cmap = 'gray')
-plt.show()
+Gy = np.array(EdgeDetecY)            
+# plt.figure()
+# plt.imshow(Gy,cmap = 'gray')
+# plt.show()
 
 #Normalize the results of both masks
-Sobel = np.hypot(Gx,Gy)
+EdgeDetec = np.hypot(Gx,Gy)
 plt.figure()
-plt.imshow(Sobel,cmap = 'gray')
+plt.imshow(EdgeDetec,cmap = 'gray')
 plt.show()
