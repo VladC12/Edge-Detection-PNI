@@ -1,6 +1,7 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+#import math
 import Operators as op #in the same directory created by us
 
 ###Edge Detection Algotirhm (Sobel Operator)
@@ -36,8 +37,10 @@ MatrixBW = np.array(InputBW)
 
 print('Choose 1 for Sobel or 2 for Prewitt Operator:')
 oper = int(input())
-print('What size?')
-size = int(input())
+size = 2
+while size % 2 == 0:
+    print('What size? (must be odd)')
+    size = int(input())
 
 maskx = np.zeros((size,size), dtype=int)
 masky = np.zeros((size,size), dtype=int)
@@ -58,13 +61,13 @@ EdgeDetecX = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
 
 InputMini = np.zeros((size,size), dtype=int)
 
-i=0 
+i=0
 j=0
-for i in range(ImageLengthX-1):
-    for j in range(ImageLengthY-1):
+for i in range(ImageLengthX-size):
+    for j in range(ImageLengthY-size):
         
-        #TODO: Redo InputMini for new algorithm
-        
+        InputMini = MatrixBW[i:i+size,j:j+size]
+    
         EDVal = np.sum(np.multiply(InputMini,maskx))
         if EDVal < 0:
             EdgeDetecX[i,j] = 255
@@ -78,13 +81,13 @@ Gx = np.array(EdgeDetecX)
 
 EdgeDetecY = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
 
-i=0 
+i=0
 j=0
-for i in range(ImageLengthX-1):
-    for j in range(ImageLengthY-1):
+for i in range(ImageLengthX-size):
+    for j in range(ImageLengthY-size):
          
-        #TODO: Redo InputMini for new algorithm
-        
+        InputMini = MatrixBW[i:i+size,j:j+size]
+                            
         EDVal = np.sum(np.multiply(InputMini,masky))
         if EDVal < 0:
             EdgeDetecY[i,j] = 255
