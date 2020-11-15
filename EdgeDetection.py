@@ -1,7 +1,6 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-#import math
 import Operators as op #in the same directory created by us
 
 ###Edge Detection Algotirhm (Sobel Operator)
@@ -39,20 +38,20 @@ print('Choose 1 for Sobel or 2 for Prewitt Operator:')
 oper = int(input())
 size = 2
 while size % 2 == 0:
-    print('What size? (must be odd)')
+    print('Choose an ODD operator size: ')
     size = int(input())
 
 maskx = np.zeros((size,size), dtype=int)
 masky = np.zeros((size,size), dtype=int)
+print(maskx)
+print(masky)
 
-
+##Applying masks
 if oper == 1:
-    ##Applying masks
     #Apply a mask in X & Y
     maskx = op.Sobel(size)[0]
     masky = op.Sobel(size)[1]
 elif oper == 2:
-    ##Applying masks
     #Apply a mask in X & Y
     maskx = op.Prewitt(size)[0]
     masky = op.Prewitt(size)[1]
