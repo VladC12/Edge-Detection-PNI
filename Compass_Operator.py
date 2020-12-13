@@ -9,7 +9,7 @@ Created on Sat Nov 14 16:08:11 2020
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-import Operators as op #in the same directory created by us
+#import Operators as op #in the same directory created by us
 
 def rotate_ring(matrix, offset):
     dim = len(matrix[0])
@@ -71,31 +71,33 @@ def compass_filter(gray, kernel):
     )
     return magn
 
- 
-size = 2
-while size % 2 == 0: #insert the size of the kernel
-    print('What size? (must be odd)')
-    size = int(input())
+
+def Compass(input_file, size, kernel):
+    while size % 2 == 0: #insert the size of the kernel
+        print('What size? (must be odd)')
+        size = int(input())
     
-kernel = op.Sobel(size)[0]
-print(kernel)
-fg = cv2.imread("E:/Facultate/2020-2021_Sem1_An_IV/PNI/AnacondaStuff/_TestImagesPNI_labs/ImgTstColor/Lenna.bmp")
-fg = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
+    #kernel = op.Sobel(size)[0]
+    #print(kernel)
+    fg = cv2.imread(input_file)
+    fg = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
 
-plt.figure()
-plt.imshow(fg)
-plt.suptitle('The input color image') #not needed just for demonstration purposes
-plt.show()
+    plt.figure()
+    plt.imshow(fg)
+    plt.suptitle('The input color image') #not needed just for demonstration purposes
+    plt.show()
 
-fg = cv2.imread("E:/Facultate/2020-2021_Sem1_An_IV/PNI/AnacondaStuff/_TestImagesPNI_labs/ImgTstColor/Lenna.bmp",0)
-#display gray
-plt.imshow(fg,cmap = 'gray')
-plt.suptitle('The gray scale input image')
-plt.show()
+    fg = cv2.imread(input_file,0)
+    #display gray
+    plt.imshow(fg,cmap = 'gray')
+    plt.suptitle('The gray scale input image')
+    plt.show()
 
-fg_rgb = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
-gray = cv2.cvtColor(fg_rgb, cv2.COLOR_RGB2GRAY)    
-output = compass_filter(gray, kernel)
-plt.imshow(output, interpolation='none', cmap='gray')
-plt.xticks([]), plt.yticks([])
-plt.show()
+    fg_rgb = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
+    gray = cv2.cvtColor(fg_rgb, cv2.COLOR_RGB2GRAY)    
+    output = compass_filter(gray, kernel)
+    plt.imshow(output, interpolation='none', cmap='gray')
+    plt.xticks([]), plt.yticks([])
+    plt.show()
+    
+    return output
