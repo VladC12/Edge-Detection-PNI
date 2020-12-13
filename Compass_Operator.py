@@ -78,23 +78,11 @@ def Compass(input_file, size, kernel):
     fg = cv2.imread(input_file)
     fg = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
 
-    plt.figure()
-    plt.imshow(fg)
-    plt.suptitle('The input color image') #not needed just for demonstration purposes
-    plt.show()
-
     fg = cv2.imread(input_file,0)
-    #display gray
-    plt.imshow(fg,cmap = 'gray')
-    plt.suptitle('The gray scale input image')
-    plt.show()
 
     fg_rgb = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(fg_rgb, cv2.COLOR_RGB2GRAY)    
     output = compass_filter(gray, kernel)
-    plt.imshow(output, interpolation='none', cmap='gray')
-    plt.xticks([]), plt.yticks([])
-    plt.show()
-    
+
     return output
 

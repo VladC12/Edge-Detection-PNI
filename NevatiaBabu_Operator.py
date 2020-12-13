@@ -85,16 +85,10 @@ def Nevatia(input_file, size, kernel):
     plt.show()
 
     fg = cv2.imread(input_file,0)
-    #display gray
-    plt.imshow(fg,cmap = 'gray')
-    plt.suptitle('The gray scale input image')
-    plt.show()
-
+ 
     fg_rgb = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(fg_rgb, cv2.COLOR_RGB2GRAY)    
     output = nevatia_babu(gray)
-    plt.imshow(output, interpolation='none', cmap='gray')
-    plt.xticks([]), plt.yticks([])
-    plt.show()
+  
     
     return output
