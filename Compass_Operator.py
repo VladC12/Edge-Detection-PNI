@@ -79,13 +79,15 @@ while size % 2 == 0: #insert the size of the kernel
     
 kernel = op.Sobel(size)[0]
 print(kernel)
-fg = cv2.imread("E:/Facultate/2020-2021_Sem1_An_IV/PNI/AnacondaStuff/_TestImagesPNI_labs/ImgTstColor/Lenna.bmp",0)
+fg = cv2.imread("E:/Facultate/2020-2021_Sem1_An_IV/PNI/AnacondaStuff/_TestImagesPNI_labs/ImgTstColor/Lenna.bmp")
+fg = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
 
 plt.figure()
 plt.imshow(fg)
 plt.suptitle('The input color image') #not needed just for demonstration purposes
 plt.show()
 
+fg = cv2.imread("E:/Facultate/2020-2021_Sem1_An_IV/PNI/AnacondaStuff/_TestImagesPNI_labs/ImgTstColor/Lenna.bmp",0)
 #display gray
 plt.imshow(fg,cmap = 'gray')
 plt.suptitle('The gray scale input image')
