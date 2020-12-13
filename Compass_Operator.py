@@ -31,8 +31,8 @@ def rotate_ring(matrix, offset):
 
 
 def rotate_matrix(matrix):
-    dim = len(matrix[0])
-    for offset in range(0, int(dim/2)):
+    dimm = len(matrix[0])
+    for offset in range(0, int(dimm/2)):
         matrix = rotate_ring(matrix, offset)
     return matrix
     
@@ -72,11 +72,7 @@ def compass_filter(gray, kernel):
     return magn
 
 
-def Compass(input_file, size, kernel):
-    while size % 2 == 0: #insert the size of the kernel
-        print('What size? (must be odd)')
-        size = int(input())
-    
+def Compass(input_file, size, kernel):    
     #kernel = op.Sobel(size)[0]
     #print(kernel)
     fg = cv2.imread(input_file)
@@ -101,3 +97,4 @@ def Compass(input_file, size, kernel):
     plt.show()
     
     return output
+

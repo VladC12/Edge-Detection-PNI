@@ -18,14 +18,6 @@ def EdgeDetection(InputFile, oper, size):
     ## display rgb
     InputRGB = cv2.cvtColor(InputRGB, cv2.COLOR_BGR2RGB)
 
-    plt.figure()
-    plt.imshow(InputRGB)
-    plt.suptitle('The input color image') #not needed just for demonstration purposes
-    plt.show()
-    ## display gray
-    # plt.imshow(InputGray,cmap = 'gray')
-    # plt.suptitle('The gray scale input image')
-    # plt.show()
 
     # Image matrix dimensions
     ImageLengthX=InputGray.shape[0] #horizontal length of image
@@ -33,20 +25,6 @@ def EdgeDetection(InputFile, oper, size):
 
     (thresh, InputBW) = cv2.threshold(InputGray, 127, 255, cv2.THRESH_BINARY) #converting to black and white
     MatrixBW = np.array(InputBW)
-    ## display BW picture
-    # plt.figure()
-    # plt.imshow(InputBW,cmap = 'gray')
-    # plt.show()
-
-    oper = 0
-    while (oper != 1) and (oper != 2):
-        print('Choose 1 for Sobel or 2 for Prewitt Operator:')
-        oper = int(input())
-        
-        size = 2
-        while size % 2 == 0:
-            print('Choose an ODD operator size: ')
-            size = int(input())
 
     maskx = np.zeros((size,size), dtype=int)
     masky = np.zeros((size,size), dtype=int)
@@ -83,10 +61,6 @@ def EdgeDetection(InputFile, oper, size):
                 EdgeDetecX[i,j] = 0
 
     Gx = np.array(EdgeDetecX)
-    plt.figure()
-    plt.imshow(Gx,cmap = 'gray')
-    plt.suptitle('The X Edge Detection')
-    plt.show()
 
     EdgeDetecY = np.zeros((ImageLengthX,ImageLengthY), dtype=int)
 
@@ -104,20 +78,12 @@ def EdgeDetection(InputFile, oper, size):
                 EdgeDetecY[i,j] = 0
             
     Gy = np.array(EdgeDetecY)            
-    plt.figure()
-    plt.imshow(Gy,cmap = 'gray')
-    plt.suptitle('The Y Edge Detection')
-    plt.show()
     
     return Gy, Gx
 
 def EdgeDetectionNormalized(Gy, Gx):
     # Normalize the results of both masks
     EdgeDetec = np.hypot(Gx,Gy)
-    plt.figure()
-    plt.imshow(EdgeDetec,cmap = 'gray')
-    plt.suptitle('The Normalized Result')
-    plt.show()
     
     return EdgeDetec
 
@@ -129,7 +95,6 @@ def EdgeDetectionAngle(Gy, Gx, EdgeDetec):
 
     ## orientation
     orien_map = np.arctan2(Gy, Gx) * 180 / np.pi
-    print(orien_map)
     
     # rgb orientation
     EdgeDetecOrien = np.zeros((orien_map.shape[0], orien_map.shape[1], 3), dtype=int)
@@ -144,9 +109,5 @@ def EdgeDetectionAngle(Gy, Gx, EdgeDetec):
             elif (EdgeDetec[i,j] > 255):
                 EdgeDetecOrien[i,j] = green
 
-    plt.figure()            
-    plt.imshow(EdgeDetecOrien)
-    plt.suptitle('The Angle Aware Edge Detection')
-    plt.show()
     
     return EdgeDetecOrien
