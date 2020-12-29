@@ -14,7 +14,9 @@ import os
 
 Operator = [
     'Sobel',
+    'Sobel w/ Angle',
     'Prewitt',
+    'Prewitt w/ Angle',
     'Compass',
     'Nevatia Babu'
     ]
@@ -47,8 +49,25 @@ btn = tk.Button(root, text = "Browse image", command = choose)
 btn.grid(row=2,column=1,columnspan=3)
 
 def ok():
-    if variable.get() == 'Sobel':
+    if variable.get() == 'Sobel w/ Angle':
         oper = 1
+        if (int(e.get()) % 2) != 0:
+            size = int(e.get())
+        else: size = 3
+        Gy = ed.EdgeDetection(input_file, oper, size)[0]
+        Gx = ed.EdgeDetection(input_file, oper, size)[1]
+        G = ed.EdgeDetectionNormalized(Gy, Gx)
+        Edge = ed.EdgeDetectionAngle(Gy, Gx, G)
+    elif variable.get() == 'Sobel':
+        oper = 1
+        if (int(e.get()) % 2) != 0:
+            size = int(e.get())
+        else: size = 3
+        Gy = ed.EdgeDetection(input_file, oper, size)[0]
+        Gx = ed.EdgeDetection(input_file, oper, size)[1]
+        Edge = ed.EdgeDetectionNormalized(Gy, Gx)
+    elif variable.get() == 'Prewitt w/ Angle':
+        oper = 2
         if (int(e.get()) % 2) != 0:
             size = int(e.get())
         else: size = 3
@@ -63,8 +82,7 @@ def ok():
         else: size = 3
         Gy = ed.EdgeDetection(input_file, oper, size)[0]
         Gx = ed.EdgeDetection(input_file, oper, size)[1]
-        G = ed.EdgeDetectionNormalized(Gy, Gx)
-        Edge = ed.EdgeDetectionAngle(Gy, Gx, G)
+        Edge = ed.EdgeDetectionNormalized(Gy, Gx)
     elif variable.get() == 'Compass':
         if (int(e.get()) % 2) != 0:
             size = int(e.get())
