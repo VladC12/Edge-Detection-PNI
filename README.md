@@ -10,3 +10,9 @@ We are to use Prewitt, Sobel, compass, Nevatia-Babu operators for edge detection
 
 Input values: gray (we will also use color converted into gray) images
 Output: The original image, edge detected image and their historogram.
+
+```zsh
+sudo apt-get install python3-tk
+
+pip install numpy opencv-python pillow matplotlib
+```
