@@ -33,7 +33,7 @@ opt.grid(row=0, column=0, columnspan=3)
 
 def choose():
     global input_file
-    input_file = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select image file", filetype=(("BMP file", "*.bmp"),("JPG file", "*.jpg"),("PNG file", "*.png"),("All files", "*.*")))
+    input_file = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select image file", filetypes=(("BMP file", "*.bmp"),("JPG file", "*.jpg"),("PNG file", "*.png"),("All files", "*.*")))
     
     og = ImageTk.PhotoImage(Image.open(input_file))
     original.image = og
